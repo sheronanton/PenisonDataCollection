@@ -1,5 +1,6 @@
 package com.twad.bean;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 
@@ -7,7 +8,7 @@ import jakarta.persistence.Id;
 
 public class PensionerBean {
 
-
+private int id;
 
 private int ppoNo;
 
@@ -32,7 +33,7 @@ private String name;
 
 private String gender;
 
-private Date dateOfBirth;
+private LocalDate dateOfBirth;
 
 private String bankAccount;
 
@@ -62,6 +63,13 @@ private String district;
 private int pincode;
 private String email;
 private String aadhaarStatus;
+
+private String updatedBy;
+private String userName;
+
+
+
+private String flag;
 public int getPpoNo() {
 	return ppoNo;
 }
@@ -128,10 +136,10 @@ public String getGender() {
 public void setGender(String gender) {
 	this.gender = gender;
 }
-public Date getDateOfBirth() {
+public LocalDate getDateOfBirth() {
 	return dateOfBirth;
 }
-public void setDateOfBirth(Date dateOfBirth) {
+public void setDateOfBirth(LocalDate dateOfBirth) {
 	this.dateOfBirth = dateOfBirth;
 }
 public String getBankAccount() {
@@ -229,6 +237,30 @@ public String getAadhaarStatus() {
 }
 public void setAadhaarStatus(String aadhaarStatus) {
 	this.aadhaarStatus = aadhaarStatus;
+}
+public int getId() {
+	return id;
+}
+public void setId(int id) {
+	this.id = id;
+}
+public String getFlag() {
+	return flag;
+}
+public void setFlag(String flag) {
+	this.flag = flag;
+}
+public String getUpdatedBy() {
+	return updatedBy;
+}
+public void setUpdatedBy(String updatedBy) {
+	this.updatedBy = updatedBy;
+}
+public String getUserName() {
+	return userName;
+}
+public void setUserName(String userName) {
+	this.userName = userName;
 }
 
 	

@@ -25,8 +25,8 @@ public class PensionerDetailsService {
 		return pensionerDetailsRepo.findByPpoNo(ppoNo);
 	}
 
-	public List<PensionerEntity> getEmployeeDetails(int officeId, String pensionerTypeId) {
-		return pensionerDetailsRepo.getEmployeeDetails(officeId, pensionerTypeId);
+	public List<PensionerEntity> getEmployeeDetails(int i, String pensionerTypeId) {
+		return pensionerDetailsRepo.getEmployeeDetails(i, pensionerTypeId);
 	}
 //	
 //	public List<Map<String, Object>> (Long officeId, String pensionerType) {

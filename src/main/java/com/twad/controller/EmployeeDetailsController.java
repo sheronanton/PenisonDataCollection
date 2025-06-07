@@ -1,5 +1,6 @@
 package com.twad.controller;
 
+import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -7,6 +8,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,6 +21,7 @@ import java.util.Date;
 import com.twad.entity.PensionerDetailsEntity;
 import com.twad.entity.PensionerEntity;
 import com.twad.repo.PensionerDetailsRepo;
+import com.twad.repo.PensionerEntityRepo;
 import com.twad.service.PensionerDetailsService;
 
 @RestController
@@ -32,6 +35,9 @@ public class EmployeeDetailsController {
 	
 	@Autowired
 	private PensionerDetailsRepo detailsRepo;
+	
+	@Autowired
+	private PensionerEntityRepo pensionerEntityRepo ;
 	
 	public Long safeParseLong(Object value) {
 	    if (value instanceof String) {
@@ -53,7 +59,7 @@ public class EmployeeDetailsController {
 	}
 
 	@PostMapping("/getPensionerDetails")
-	public List<PensionerEntity> getEmployeeDetails(@RequestBody RequestBean bean) {
+	public List<PensionerEntity> getEmployeeDetails(@RequestBody PensionerBean bean) {
 		
 		String pensionerTypeId  = (String) bean.getPensionerTypeId();
 		
@@ -65,6 +71,77 @@ public class EmployeeDetailsController {
 
 		return pensionDetails;
 	}
+	
+
+	@Transactional
+	@PostMapping("/savePensionerDetails")
+	public ResponseEntity<ResponseBean> savePensionerDetails(@RequestBody PensionerBean bean) {
+	    try {
+	        // Debug print all fields
+	        for (Field field : bean.getClass().getDeclaredFields()) {
+	            field.setAccessible(true);
+	            System.out.println(field.getName() + " = " + field.get(bean));
+	        }
+	    } catch (IllegalAccessException e) {
+	        e.printStackTrace();
+	    }
+
+	    // Fetch existing pensioner by PPO No, or create a new one
+	    PensionerEntity pensioner = pensionerEntityRepo.findByPpoNo(bean.getPpoNo());
+	    if (pensioner == null) {
+	        pensioner = new PensionerEntity(); // or throw error if PPO must exist
+	    }
+
+	    // Map data from bean to entity
+	    pensioner.setPpoNo(bean.getPpoNo());
+	    pensioner.setName(bean.getName());
+	    pensioner.setGender(bean.getGender());
+	    pensioner.setDateOfBirth(bean.getDateOfBirth());
+	    pensioner.setBankCode(bean.getBankCode());
+	    pensioner.setBankAccount(bean.getBankAccount());
+	    pensioner.setBankName(bean.getBankName());
+	    pensioner.setBranchName(bean.getBranchName());
+	    pensioner.setPensionerTypeId(bean.getPensionerTypeId());
+	    pensioner.setPaymentOfficeId(bean.getPaymentOfficeId());
+	    pensioner.setPaymentOfficeName(bean.getPaymentOfficeName());
+	    pensioner.setMobileNumber(bean.getMobileNumber());
+	    pensioner.setEmail(bean.getEmail());
+	    pensioner.setPanNo(bean.getPanNo());
+	    pensioner.setAadhaarNo(bean.getAadhaarNo());
+	    pensioner.setAadhaarStatus(bean.getAadhaarStatus());
+	    pensioner.setId(bean.getId()); // if you allow ID to be updated
+	    pensioner.setLifeCertificate(bean.getLifeCertificate());
+	    pensioner.setReMarriage(bean.getReMarriage());
+	    pensioner.setReEmployed(bean.getReEmployed());
+	    pensioner.setAuthenticationDate(bean.getAuthenticationDate());
+	    pensioner.setPramaanId(bean.getPramaanId());
+	    pensioner.setPensionerType(bean.getPensionerType());
+	    pensioner.setAddressLine1(bean.getAddressLine1());
+	    pensioner.setAddressLine2(bean.getAddressLine2());
+	    pensioner.setAddressLine3(bean.getAddressLine3());
+	    pensioner.setState(bean.getState());
+	    pensioner.setDistrict(bean.getDistrict());
+	    pensioner.setPincode(bean.getPincode());
+	    pensioner.setUpdatedBy(bean.getUserName());
+
+	    pensioner.setFlag(bean.getFlag());
+	    
+
+
+	    // ... map all other fields as needed
+
+	    // Save to DB
+	    pensionerEntityRepo.save(pensioner);
+
+	    return ResponseEntity.ok(new ResponseBean());
+	}
+
+
+
+	
+	
+	
+	
 	
 
 	

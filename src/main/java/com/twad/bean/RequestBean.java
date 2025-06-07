@@ -1,6 +1,8 @@
 package com.twad.bean;
 
 import java.sql.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -17,6 +19,58 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RequestBean {
+	
+	
+	
+private int ppoNo;
+	
+	private String bankCode;
+	
+	private String lifeCertificate;
+	
+	private String reMarriage;
+	
+	private String reEmployed;
+	
+	private LocalDateTime authenticationDate;
+	
+	private String pramaanId;
+	
+	
+	
+	private String name;
+	
+	
+	private String gender;
+	
+	private LocalDate  dateOfBirth;
+	
+	private String bankAccount;
+	
+	private String bankName;
+	
+	private String branchName;
+	
+	
+	
+
+
+	
+	
+	private String paymentOfficeName;
+	
+	private String panNo;
+	
+	private String addressLine1;
+	private String addressLine2;
+	private String addressLine3;
+
+	private String state;
+	private String district;
+	private Integer  pincode;
+	private String email;
+	private String aadhaarStatus;
+	
 
 	int[] beneficiaries;
 	Date date;
@@ -55,7 +109,7 @@ private String pensionerType;
 
 private String pensionerTypeId;
 	
-	private Long aadhaarNumber;
+	private Long aadhaarNo;
 	
 	
 	private Long mobileNumber;
@@ -70,13 +124,7 @@ private String pensionerTypeId;
 		this.mobileNumber = mobileNumber;
 	}
 
-	public Long getAadhaarNumber() {
-		return aadhaarNumber;
-	}
 
-	public void setAadhaarNumber(Long aadharNumber) {
-		this.aadhaarNumber = aadharNumber;
-	}
 
 	public String getPensionerType() {
 		return pensionerType;
