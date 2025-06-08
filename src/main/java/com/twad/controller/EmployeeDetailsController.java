@@ -91,55 +91,73 @@ public class EmployeeDetailsController {
 	    } catch (IllegalAccessException e) {
 	        e.printStackTrace();
 	    }
+	    
+	    ResponseBean resp = new ResponseBean();
 
-	    // Fetch existing pensioner by PPO No, or create a new one
-	    PensionerEntity pensioner = pensionerEntityRepo.findByPpoNo(bean.getPpoNo());
-	    if (pensioner == null) {
-	        pensioner = new PensionerEntity(); // or throw error if PPO must exist
+	    try {
+	    	PensionerEntity pensioner = pensionerEntityRepo.findByPpoNo(bean.getPpoNo());
+		    if (pensioner == null) {
+		        pensioner = new PensionerEntity(); // or throw error if PPO must exist
+		    }
+
+		    // Map data from bean to entity
+		    pensioner.setPpoNo(bean.getPpoNo());
+		    pensioner.setName(bean.getName());
+		    pensioner.setGender(bean.getGender());
+		    pensioner.setDateOfBirth(bean.getDateOfBirth());
+		    pensioner.setBankCode(bean.getBankCode());
+		    pensioner.setBankAccount(bean.getBankAccount());
+		    pensioner.setBankName(bean.getBankName());
+		    pensioner.setBranchName(bean.getBranchName());
+		    pensioner.setPensionerTypeId(bean.getPensionerTypeId());
+		    pensioner.setPaymentOfficeId(bean.getPaymentOfficeId());
+		    pensioner.setPaymentOfficeName(bean.getPaymentOfficeName());
+		    pensioner.setMobileNumber(bean.getMobileNumber());
+		    pensioner.setEmail(bean.getEmail());
+		    pensioner.setPanNo(bean.getPanNo());
+		    pensioner.setAadhaarNo(bean.getAadhaarNo());
+		    pensioner.setAadhaarStatus(bean.getAadhaarStatus());
+		    pensioner.setId(bean.getId()); // if you allow ID to be updated
+		    pensioner.setLifeCertificate(bean.getLifeCertificate());
+		    pensioner.setReMarriage(bean.getReMarriage());
+		    pensioner.setReEmployed(bean.getReEmployed());
+		    pensioner.setAuthenticationDate(bean.getAuthenticationDate());
+		    pensioner.setPramaanId(bean.getPramaanId());
+		    pensioner.setPensionerType(bean.getPensionerType());
+		    pensioner.setAddressLine1(bean.getAddressLine1());
+		    pensioner.setAddressLine2(bean.getAddressLine2());
+		    pensioner.setAddressLine3(bean.getAddressLine3());
+		    pensioner.setState(bean.getState());
+		    pensioner.setDistrict(bean.getDistrict());
+		    pensioner.setPincode(bean.getPincode());
+		    pensioner.setUpdatedBy(bean.getUserName());
+		    pensioner.setFlag(bean.getFlag());
+		    
+
+
+		    // ... map all other fields as needed
+
+		    // Save to DB
+		    pensionerEntityRepo.save(pensioner);
+		    updatePensionMaster(bean);
+		    resp.setMessage("success");
+		    
+	    	
+	    }
+	    catch (Exception e) {
+		    resp.setMessage("failure");
+
+	        e.printStackTrace();
 	    }
 
-	    // Map data from bean to entity
-	    pensioner.setPpoNo(bean.getPpoNo());
-	    pensioner.setName(bean.getName());
-	    pensioner.setGender(bean.getGender());
-	    pensioner.setDateOfBirth(bean.getDateOfBirth());
-	    pensioner.setBankCode(bean.getBankCode());
-	    pensioner.setBankAccount(bean.getBankAccount());
-	    pensioner.setBankName(bean.getBankName());
-	    pensioner.setBranchName(bean.getBranchName());
-	    pensioner.setPensionerTypeId(bean.getPensionerTypeId());
-	    pensioner.setPaymentOfficeId(bean.getPaymentOfficeId());
-	    pensioner.setPaymentOfficeName(bean.getPaymentOfficeName());
-	    pensioner.setMobileNumber(bean.getMobileNumber());
-	    pensioner.setEmail(bean.getEmail());
-	    pensioner.setPanNo(bean.getPanNo());
-	    pensioner.setAadhaarNo(bean.getAadhaarNo());
-	    pensioner.setAadhaarStatus(bean.getAadhaarStatus());
-	    pensioner.setId(bean.getId()); // if you allow ID to be updated
-	    pensioner.setLifeCertificate(bean.getLifeCertificate());
-	    pensioner.setReMarriage(bean.getReMarriage());
-	    pensioner.setReEmployed(bean.getReEmployed());
-	    pensioner.setAuthenticationDate(bean.getAuthenticationDate());
-	    pensioner.setPramaanId(bean.getPramaanId());
-	    pensioner.setPensionerType(bean.getPensionerType());
-	    pensioner.setAddressLine1(bean.getAddressLine1());
-	    pensioner.setAddressLine2(bean.getAddressLine2());
-	    pensioner.setAddressLine3(bean.getAddressLine3());
-	    pensioner.setState(bean.getState());
-	    pensioner.setDistrict(bean.getDistrict());
-	    pensioner.setPincode(bean.getPincode());
-	    pensioner.setUpdatedBy(bean.getUserName());
-	    pensioner.setFlag(bean.getFlag());
+	    // Fetch existing pensioner by PPO No, or create a new one
+	    
+	    
+	    
+	    
 	    
 
-
-	    // ... map all other fields as needed
-
-	    // Save to DB
-	    pensionerEntityRepo.save(pensioner);
-	    updatePensionMaster(bean);
-
-	    return ResponseEntity.ok(new ResponseBean());
+	    return ResponseEntity.ok(resp);
 	}
 	
 	
