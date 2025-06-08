@@ -8,6 +8,8 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.twad.bean.*;
 import java.util.Date;
+import java.util.HashMap;
 
 import com.twad.entity.PensionerDetailsEntity;
 import com.twad.entity.PensionerEntity;
@@ -28,7 +31,10 @@ import com.twad.service.PensionerDetailsService;
 @RequestMapping("employees")
 @CrossOrigin
 public class EmployeeDetailsController {
-
+	
+	
+	@Autowired
+	private NamedParameterJdbcTemplate namedJdbcTemplate;
 	
 	@Autowired
 	private PensionerDetailsService pensionerDetailsService;
@@ -123,7 +129,6 @@ public class EmployeeDetailsController {
 	    pensioner.setDistrict(bean.getDistrict());
 	    pensioner.setPincode(bean.getPincode());
 	    pensioner.setUpdatedBy(bean.getUserName());
-
 	    pensioner.setFlag(bean.getFlag());
 	    
 
@@ -132,9 +137,67 @@ public class EmployeeDetailsController {
 
 	    // Save to DB
 	    pensionerEntityRepo.save(pensioner);
+	    updatePensionMaster(bean);
 
 	    return ResponseEntity.ok(new ResponseBean());
 	}
+	
+	
+	public String updatePensionMaster(PensionerBean bean) {
+		
+		String updateSql="";
+		
+		if (bean.getPensionerTypeId().equalsIgnoreCase("P")) {
+			 updateSql = """
+				    UPDATE hrm_pen_mst_address
+				    SET
+				        aadhar_no = :aadhaarNo,
+				        pan_no = :panNo,
+				        contact_cell = :mobileNumber,
+				        updated_user_id = :updatedBy,
+				        updated_date = now()
+				    WHERE ppo_no = :ppoNo
+				""";
+			
+		}else if (bean.getPensionerTypeId().equalsIgnoreCase("F")    ) {
+			 updateSql = """
+					    UPDATE HR_PEN_MST_FAMILY_ADDRESS
+					    SET
+					        aadhar_no = :aadhaarNo::NUMERIC,
+					        pan_no = :panNo,
+					        contact_cell = :mobileNumber,
+					        updated_user_id = :updatedBy,
+					        updated_date = now()
+					    WHERE ppo_no = :ppoNo
+					""";
+		}
+		
+	
+
+			Map<String, Object> params = new HashMap<>();
+			params.put("ppoNo", bean.getPpoNo());
+			try {
+			    params.put("aadhaarNo", 
+			        (bean.getAadhaarNo() != null && !bean.getAadhaarNo().isBlank()) 
+			            ? Long.parseLong(bean.getAadhaarNo()) 
+			            : null
+			    );
+			} catch (NumberFormatException e) {
+			    params.put("aadhaarNo", null);
+			}
+			params.put("panNo", bean.getPanNo());
+			params.put("mobileNumber", bean.getMobileNumber());
+			params.put("pensionerType", bean.getPensionerType());
+			params.put("updatedBy", bean.getUserName());
+
+			int rowsAffected = namedJdbcTemplate.update(updateSql, params);
+			System.out.println("Master table updated rows: " + rowsAffected);
+			
+			return updateSql;
+		
+	}
+	
+
 
 
 
