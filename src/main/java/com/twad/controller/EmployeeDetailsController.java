@@ -5,6 +5,9 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -173,7 +176,9 @@ public class EmployeeDetailsController {
 				        pan_no = :panNo,
 				        contact_cell = :mobileNumber,
 				        updated_user_id = :updatedBy,
+				        address = :address,
 				        updated_date = now()
+				        
 				    WHERE ppo_no = :ppoNo
 				""";
 			
@@ -185,6 +190,7 @@ public class EmployeeDetailsController {
 					        pan_no = :panNo,
 					        contact_cell = :mobileNumber,
 					        updated_user_id = :updatedBy,
+			 			    address = :address,
 					        updated_date = now()
 					    WHERE ppo_no = :ppoNo
 					""";
@@ -207,6 +213,15 @@ public class EmployeeDetailsController {
 			params.put("mobileNumber", bean.getMobileNumber());
 			params.put("pensionerType", bean.getPensionerType());
 			params.put("updatedBy", bean.getUserName());
+			
+			
+			String address = Stream.of(bean.getAddressLine1(), bean.getAddressLine2(), bean.getAddressLine3())
+                    .filter(Objects::nonNull)
+                    .map(String::trim)
+                    .filter(s -> !s.isEmpty())
+                    .collect(Collectors.joining(", "));
+			
+			params.put("address", bean.getAddressLine1()+",  "+bean.getAddressLine2()+",  "+bean.getAddressLine3());
 
 			int rowsAffected = namedJdbcTemplate.update(updateSql, params);
 			System.out.println("Master table updated rows: " + rowsAffected);
