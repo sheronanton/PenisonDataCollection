@@ -37,16 +37,16 @@ public class UserController {
 
 	@PostMapping("/user")
 	public UserModel getUserByUserName(@RequestBody UserBean userbean) {
-		return userService.findByUserName(userbean.getUserName());
+		return userService.findByUserName(userbean.getUserName(), "pension");
 	}
 
 	@PostMapping("/user/authenticateUser")
 	public ResponseEntity<?> authenticateUser(@RequestBody UserBean userbean) {
-		boolean userExists = userService.authenticateUser(userbean);
+		boolean userExists = userService.authenticateUser(userbean,  "pension");
 
 		UserBean userBean = null;
 		ResponseBean resp = new ResponseBean();
-		UserModel user = userService.findByUserName(userbean.getUserName());
+		UserModel user = userService.findByUserName(userbean.getUserName(),  "pension");
 		ModelMapper modelMapper = new ModelMapper();
 		if (userExists) {
 			System.out.println("User available");

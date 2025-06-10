@@ -16,6 +16,8 @@ public class UserBean {
 		private int isPasswordChanged;
 		
 		private String oldPassword;
+	    private String[] applications;
+
 		
 
 		public int getIsPasswordChanged() {
@@ -85,6 +87,14 @@ public class UserBean {
 
 	public void setOldPassword(String oldPassword) {
 		this.oldPassword = oldPassword;
+	}
+
+	public String[] getApplications() {
+		return applications;
+	}
+
+	public void setApplications(String[] applications) {
+		this.applications = applications;
 	}
 	
 	

@@ -29,7 +29,8 @@ public class UserModel {
 	
 	private int isPasswordChanged;
 	
-	
+    private String[] applications;
+
 	
 	
 		

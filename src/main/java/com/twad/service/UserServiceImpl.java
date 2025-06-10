@@ -19,8 +19,8 @@ public class UserServiceImpl implements UserService{
 	
 	
 	@Override
-	public UserModel findByUserName(String userName) {
-		return userRepository.findByUserName(userName);		
+	public UserModel findByUserName(String userName, String application) {
+		return userRepository.findByUserName(userName, application);		
 	}
 
 	@Override
@@ -30,16 +30,20 @@ public class UserServiceImpl implements UserService{
 
 
 	@Override
-	public boolean authenticateUser(UserBean userbean) {
-		UserModel user = userRepository.findByUserName(userbean.getUserName());		
-		
-		if ((user!= null) && (userbean.getUserName().equals(user.getUserName()))   && (userbean.getUserPassword().equals(user.getUserPassword())) ) {
-			return true;
-		}
-		
-		
-		return false;
+	public boolean authenticateUser(UserBean userbean, String application) {
+	    // Use the correct repository method
+	    UserModel user = userRepository.findByUserName(
+	        userbean.getUserName(), application);
+
+	    // Null check and match password
+	    if (user != null &&
+	        userbean.getUserPassword().equals(user.getUserPassword())) {
+	        return true;
+	    }
+
+	    return false;
 	}
+
 
 	@Override
 	public UserModel findByUserNameAndPassword(String userName, String oldPassword) {
