@@ -32,6 +32,8 @@ import com.twad.service.PensionerDetailsService;
 
 @RestController
 @RequestMapping("employees")
+//@RequestMapping("twad_data_collection/employees")
+
 @CrossOrigin
 public class EmployeeDetailsController {
 	
@@ -172,11 +174,15 @@ public class EmployeeDetailsController {
 			 updateSql = """
 				    UPDATE hrm_pen_mst_address
 				    SET
-				        aadhar_no = :aadhaarNo,
+				        aadhaar_no = :aadhaarNo,
 				        pan_no = :panNo,
 				        contact_cell = :mobileNumber,
 				        updated_user_id = :updatedBy,
 				        address = :address,
+				        district =:district,
+				        state_name =:state,
+				        pincode =:pincode,
+				        contact_email_id =:email,
 				        updated_date = now()
 				        
 				    WHERE ppo_no = :ppoNo
@@ -186,11 +192,15 @@ public class EmployeeDetailsController {
 			 updateSql = """
 					    UPDATE HR_PEN_MST_FAMILY_ADDRESS
 					    SET
-					        aadhar_no = :aadhaarNo::NUMERIC,
+					        aadhaar_no = :aadhaarNo::NUMERIC,
 					        pan_no = :panNo,
 					        contact_cell = :mobileNumber,
 					        updated_user_id = :updatedBy,
 			 			    address = :address,
+			 			    district =:district,
+				        state_name =:state,
+				        pincode =:pincode,
+				        contact_email_id =:email,
 					        updated_date = now()
 					    WHERE ppo_no = :ppoNo
 					""";
@@ -222,6 +232,15 @@ public class EmployeeDetailsController {
                     .collect(Collectors.joining(", "));
 			
 			params.put("address", bean.getAddressLine1()+",  "+bean.getAddressLine2()+",  "+bean.getAddressLine3());
+			
+			params.put("district", bean.getDistrict());
+			params.put("state", bean.getState());
+
+			params.put("pincode", Integer.toString(bean.getPincode()));
+
+			params.put("email", bean.getEmail());
+
+
 
 			int rowsAffected = namedJdbcTemplate.update(updateSql, params);
 			System.out.println("Master table updated rows: " + rowsAffected);

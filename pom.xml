@@ -9,11 +9,11 @@
 		<version>3.3.1</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.eodb</groupId>
-	<artifactId>eodb_tariff</artifactId>
+	<groupId>com.twad</groupId>
+	<artifactId>PensionDataApplication</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
-	<name>eodb_tariff</name>
+	<name>PensionDataApplication</name>
 	<description>Demo project for Spring Boot</description>
 	<url />
 	<licenses>
