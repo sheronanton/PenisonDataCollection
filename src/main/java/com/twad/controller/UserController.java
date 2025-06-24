@@ -21,8 +21,8 @@ import com.twad.bean.*;
 
 
 @RestController
-@RequestMapping("employees")
-//@RequestMapping("twad_data_collection/employees")
+//@RequestMapping("employees")
+@RequestMapping("twad_data_collection/employees")
 
 public class UserController {
 

@@ -31,8 +31,8 @@ import com.twad.repo.PensionerEntityRepo;
 import com.twad.service.PensionerDetailsService;
 
 @RestController
-@RequestMapping("employees")
-//@RequestMapping("twad_data_collection/employees")
+//@RequestMapping("employees")
+@RequestMapping("twad_data_collection/employees")
 
 @CrossOrigin
 public class EmployeeDetailsController {
