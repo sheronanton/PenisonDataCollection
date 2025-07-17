@@ -104,7 +104,13 @@ public interface PensionerDetailsRepo extends JpaRepository<PensionerDetailsEnti
 //	List<Map<String, Object>> getEmployeeDetails(int officeId, String pensionerType);
 	
 	
-	@Query(value = "From PensionerEntity where paymentOfficeId =:officeId and pensionerTypeId =:pensionerTypeId ")
+	@Query(value = "From PensionerEntity where paymentOfficeId =:officeId and pensionerTypeId =:pensionerTypeId ORDER BY\r\n"
+			+ "  CASE\r\n"
+			+ "    WHEN AADHAAR_STATUS IS NULL THEN 1\r\n"
+			+ "    WHEN AADHAAR_STATUS = 'INVALID AADHAAR' THEN 2\r\n"
+			+ "    WHEN AADHAAR_STATUS = 'VALID AADHAAR' THEN 3\r\n"
+			+ "    ELSE 4\r\n"
+			+ "	END; ")
 	List<PensionerEntity> getEmployeeDetails(int officeId, String pensionerTypeId);
 	
 	
