@@ -104,14 +104,30 @@ public interface PensionerDetailsRepo extends JpaRepository<PensionerDetailsEnti
 //	List<Map<String, Object>> getEmployeeDetails(int officeId, String pensionerType);
 	
 	
-	@Query(value = "From PensionerEntity where paymentOfficeId =:officeId and pensionerTypeId =:pensionerTypeId ORDER BY\r\n"
-			+ "  CASE\r\n"
-			+ "    WHEN AADHAAR_STATUS IS NULL THEN 1\r\n"
-			+ "    WHEN AADHAAR_STATUS = 'INVALID AADHAAR' THEN 2\r\n"
-			+ "    WHEN AADHAAR_STATUS = 'VALID AADHAAR' THEN 3\r\n"
-			+ "    ELSE 4\r\n"
-			+ "	END; ")
-	List<PensionerEntity> getEmployeeDetails(int officeId, String pensionerTypeId);
+	@Query("""
+		    FROM PensionerEntity 
+		    WHERE paymentOfficeId = :officeId 
+		      AND pensionerTypeId = :pensionerTypeId
+		    ORDER BY aadhaarStatus NULLS FIRST, aadhaarStatus
+		""")
+		List<PensionerEntity> getEmployeeDetails(int officeId, String pensionerTypeId);
+	
+	
+//	@Query(value = """
+//		    SELECT * 
+//		    FROM pensioner_entity
+//		    WHERE payment_office_id = :officeId 
+//		      AND pensioner_type_id = :pensionerTypeId
+//		    ORDER BY
+//		      CASE
+//		        WHEN aadhaar_status IS NULL THEN 1
+//		        WHEN aadhaar_status = 'INVALID AADHAAR' THEN 2
+//		        WHEN aadhaar_status = 'VALID AADHAAR' THEN 3
+//		        ELSE 4
+//		      END
+//		""", nativeQuery = true)
+//		List<PensionerEntity> getEmployeeDetails(int officeId, String pensionerTypeId);
+
 	
 	
 	@Query(value = " SELECT * from pensioner_details where payment_office_id = :officeId and pensioner_type= :pensionerType ORDER BY name ", nativeQuery = true)
