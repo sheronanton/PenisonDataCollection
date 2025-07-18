@@ -137,7 +137,6 @@ public interface PensionerDetailsRepo extends JpaRepository<PensionerDetailsEnti
 
 
 
-
 	PensionerDetailsEntity findByPpoNo(int ppoNo);
 
 }

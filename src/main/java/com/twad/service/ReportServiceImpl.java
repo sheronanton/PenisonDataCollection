@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.twad.entity.DCBCollection;
 import com.twad.entity.ReportData;
+import com.twad.repo.PensionerEntityRepo;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -22,6 +23,10 @@ public class ReportServiceImpl implements ReportService {
 
 	@PersistenceContext
 	private EntityManager entityManager;
+	
+	@Autowired
+	private PensionerEntityRepo pensionerEntityRepo;
+	
 
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
@@ -456,5 +461,24 @@ public class ReportServiceImpl implements ReportService {
 				new Object[] { year, month, year, month, year, month, year, month, year, month },
 				new ColumnMapRowMapper());
 	}
+
+	@Override
+	public List<Map<String, Object>> getAadhaarStatusReport(int paymentOfficeId) {
+		
+		return pensionerEntityRepo.getAadhaarStatusReport(paymentOfficeId);
+	}
+
+	@Override
+	public List<Map<String, Object>> getAadhaarStatusDetailed(int paymentOfficeId, String pensionerTypeId, String status) {
+		return pensionerEntityRepo.getAadhaarStatusDetailed(paymentOfficeId, pensionerTypeId, status);
+	}
+
+	@Override
+	public List<Map<String, Object>> getAadhaarStatusReportAllOffices() {
+		// TODO Auto-generated method stub
+		return pensionerEntityRepo.getAadhaarStatusReportAllOffices();
+	}
+
+
 
 }

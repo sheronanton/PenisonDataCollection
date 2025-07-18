@@ -24,4 +24,16 @@ public interface ReportService {
 
 	public List<Map<String, Object>> executeReportQuery3(int year , int month);
 	
+	public List<Map<String, Object>> getAadhaarStatusReport(int paymentOfficeId);
+	
+	public List<Map<String, Object>> getAadhaarStatusDetailed(int paymentOfficeId, String pensionerTypeId, String status);
+
+	public List<Map<String, Object>> getAadhaarStatusReportAllOffices();
+
+	
+
+
+
+
+	
 }
