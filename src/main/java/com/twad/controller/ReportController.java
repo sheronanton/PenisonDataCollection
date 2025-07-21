@@ -21,6 +21,8 @@ import jakarta.servlet.http.HttpServletResponse;
 
 @RestController
 @RequestMapping("/employees/report")
+//@RequestMapping("/twad_data_collection/employees/report")
+
 public class ReportController {
 
 	@Autowired
