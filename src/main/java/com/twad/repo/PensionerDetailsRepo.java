@@ -108,6 +108,7 @@ public interface PensionerDetailsRepo extends JpaRepository<PensionerDetailsEnti
 		    FROM PensionerEntity 
 		    WHERE paymentOfficeId = :officeId 
 		      AND pensionerTypeId = :pensionerTypeId
+		      AND remarks is null
 		    ORDER BY aadhaarStatus NULLS FIRST, aadhaarStatus
 		""")
 		List<PensionerEntity> getEmployeeDetails(int officeId, String pensionerTypeId);
@@ -130,7 +131,7 @@ public interface PensionerDetailsRepo extends JpaRepository<PensionerDetailsEnti
 
 	
 	
-	@Query(value = " SELECT * from pensioner_details where payment_office_id = :officeId and pensioner_type= :pensionerType ORDER BY name ", nativeQuery = true)
+	@Query(value = " SELECT * from pensioner_details where payment_office_id = :officeId and pensioner_type= :pensionerType AND remarks is nullORDER BY name ", nativeQuery = true)
 	List<Map<String,Object>> getPensionerReport(Long officeId, String pensionerType);
 
 

@@ -85,7 +85,7 @@ public class PensionerEntity {
 	private LocalDateTime updatedDate;
 
 	
-
+	private String remarks;
 
 }
 
