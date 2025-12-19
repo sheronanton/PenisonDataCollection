@@ -40,6 +40,7 @@ public class ReportController {
 	@PostMapping("/GetAadhaarStatusAbstract")
     public ResponseEntity<?> getAadhaarStatusReport(
             @RequestBody RequestBean req) {
+//		System.out.print(false);
         return ResponseEntity.ok(
             reportService.getAadhaarStatusReport(req.getPaymentOfficeId())
         );
